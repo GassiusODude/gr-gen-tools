@@ -1,0 +1,55 @@
+<block>
+  <name>Throughput</name>
+  <key>throughput</key>
+  <category>[Gen Tools Measurement]</category>
+  <import>from gr_gen_tools.measure.throughput import Throughput</import>
+  <make>Throughput(name=$name, period=$period, dtype=$dtype)</make>
+  <callback>set_param_period(period=$period)</callback>
+  <callback>set_name($name)</callback>
+  <callback>set_period($period)</callback>
+  <callback>set_dtype($dtype)</callback>
+  <param>
+    <name>Name</name>
+    <key>name</key>
+    <value>Default</value>
+    <type>string</type>
+  </param>
+  <param>
+    <name>Period</name>
+    <key>period</key>
+    <value>5</value>
+    <type>raw</type>
+    <hide>none</hide>
+  </param>
+  <param>
+    <name>dtype</name>
+    <key>dtype</key>
+    <value>float</value>
+    <type>enum</type>
+    <option>
+      <name>Complex</name>
+      <key>complex</key>
+    </option>
+    <option>
+      <name>Float</name>
+      <key>float</key>
+    </option>
+    <option>
+      <name>Short</name>
+      <key>short</key>
+    </option>
+    <option>
+      <name>Integer</name>
+      <key>int</key>
+    </option>
+    <option>
+      <name>Byte</name>
+      <key>byte</key>
+    </option>
+  </param>
+  <sink>
+    <name>in</name>
+    <type></type>
+    <vlen>1</vlen>
+  </sink>
+</block>
