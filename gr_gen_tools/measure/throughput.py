@@ -27,7 +27,7 @@ class Throughput(gr.sync_block):
             dtype = np.complex64
         elif dtype == float:
             dtype = np.float32
-        elif dtype == short:
+        elif dtype == np.int16:
             dtype = np.int16
         elif dtype == int:
             dtype = int
