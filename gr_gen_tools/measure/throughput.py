@@ -4,6 +4,9 @@ Throughput measurement block
 from gnuradio import gr
 import time
 import numpy as np
+byte = np.byte
+short = np.short
+from gr_gen_tools.utils.representation import engineering_notation
 class Throughput(gr.sync_block):
 
     def __init__(self, name, period, dtype=float):
@@ -23,16 +26,17 @@ class Throughput(gr.sync_block):
             raise TypeError('name should be of type' + str(str))
         if period <  0:
             raise ValueError('period should be greater than  0')
-        if dtype == complex:
+        """if dtype == complex:
             dtype = np.complex64
         elif dtype == float:
             dtype = np.float32
         elif dtype == np.int16:
             dtype = np.int16
         elif dtype == int:
-            dtype = int
+            dtype = np.int32
         else:
             dtype = np.uint8
+        """
         # -----------------------  call the synb block  ---------------------
         gr.sync_block.__init__(self,
             name="Throughput",
@@ -110,8 +114,9 @@ class Throughput(gr.sync_block):
         toc = time.time()
         if toc - self.last_time > self.period:
             # display throughput
-            print("Throughput (%s)= %4.2f"%(self.stream_name, \
-                (float(self.num_data) / (toc - self.last_time))))
+            avg_thru = float(self.num_data) / (toc - self.last_time)
+            print("Throughput (%s) = %s elements/second"%\
+                (self.stream_name, engineering_notation(avg_thru)))
 
             # update data and last time
             self.num_data = 0

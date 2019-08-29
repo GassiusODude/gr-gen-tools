@@ -1,10 +1,10 @@
 <block>
   <name>Throughput</name>
   <key>throughput</key>
-  <category>[gr-gen-tools]/Debug</category>
+  <category>[gr-gen-tools]/Measure</category>
   <import>from gr_gen_tools.measure.throughput import Throughput</import>
   <import>import numpy as np</import>
-  <make>Throughput(name=$name, period=$period, dtype=$dtype)</make>
+  <make>Throughput(name=$name, period=$period, dtype=$(dtype.const_type))</make>
   <callback>set_param_period(period=$period)</callback>
   <callback>set_name($name)</callback>
   <callback>set_period($period)</callback>
@@ -19,38 +19,45 @@
     <name>Period</name>
     <key>period</key>
     <value>5</value>
-    <type>raw</type>
+    <type>float</type>
     <hide>none</hide>
   </param>
   <param>
-    <name>dtype</name>
+    <name>Data Type</name>
     <key>dtype</key>
-    <value>float</value>
     <type>enum</type>
     <option>
       <name>Complex</name>
       <key>complex</key>
+      <opt>const_type:np.complex64</opt>
     </option>
     <option>
       <name>Float</name>
       <key>float</key>
+      <opt>const_type:np.float32</opt>
     </option>
     <option>
       <name>Short</name>
-      <key>np.int16</key>
+      <key>short</key>
+      <opt>const_type:np.int16</opt>
     </option>
     <option>
       <name>Integer</name>
       <key>int</key>
+      <opt>const_type:np.int32</opt>
     </option>
     <option>
       <name>Byte</name>
-      <key>np.uint8</key>
+      <key>byte</key>
+      <opt>const_type:np.uint8</opt>
     </option>
   </param>
   <sink>
     <name>in</name>
-    <type></type>
+    <type>$dtype</type>
     <vlen>1</vlen>
   </sink>
+  <doc>
+Throughput measurement block.
+  </doc>
 </block>
