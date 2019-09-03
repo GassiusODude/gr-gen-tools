@@ -1,3 +1,7 @@
+#!/usr/bin/python
+"""
+Common Representations
+"""
 from datetime import datetime
 import numpy as np
 def engineering_notation(value, n_dec=6):
@@ -9,16 +13,16 @@ def engineering_notation(value, n_dec=6):
 
     """
     form = "%" + ("1.%df "%n_dec)
-    if value > 1e12:
+    if value >= 1e12:
         # Terra (1e12)
         return (form + "T")%(float(value) / 1e12)
-    elif  value > 1e9:
+    elif  value >= 1e9:
         # Giga (1e9)
         return (form + "G")%(float(value) / 1e9)
-    elif value > 1e6:
+    elif value >= 1e6:
         # Mega (1e6)
         return (form + "M")%(float(value) / 1e6)
-    elif value > 1e3:
+    elif value >= 1e3:
         # kilo (1e3)
         return (form + "k")%(float(value) / 1e3)
     else:

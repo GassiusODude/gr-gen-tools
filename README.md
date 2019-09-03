@@ -5,6 +5,6 @@ General GNU Radio Tools
 Setup the Environmental Variables
 
 ~~~bash
-export PYTHONPATH=$PYTHONPATH:/path/to/gr-gen-tools/gr_gen_tools
-export GRC_BLOCK_PATH=$GRC_BLOCK_PATH:/path/to/gr-gen-tools/grc_xml
+export PYTHONPATH=$PYTHONPATH:/path/to/gr-gen-tools
+export GRC_BLOCKS_PATH=$GRC_BLOCKS_PATH:/path/to/gr-gen-tools/grc_xml
 ~~~

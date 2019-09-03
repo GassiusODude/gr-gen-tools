@@ -1,3 +1,4 @@
+#!/usr/bin/python
 """
 Throughput measurement block
 """
