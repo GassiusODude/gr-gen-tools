@@ -27,17 +27,7 @@ class Throughput(gr.sync_block):
             raise TypeError('name should be of type' + str(str))
         if period <  0:
             raise ValueError('period should be greater than  0')
-        """if dtype == complex:
-            dtype = np.complex64
-        elif dtype == float:
-            dtype = np.float32
-        elif dtype == np.int16:
-            dtype = np.int16
-        elif dtype == int:
-            dtype = np.int32
-        else:
-            dtype = np.uint8
-        """
+
         # -----------------------  call the synb block  ---------------------
         gr.sync_block.__init__(self,
             name="Throughput",
