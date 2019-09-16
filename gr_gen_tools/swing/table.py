@@ -39,9 +39,10 @@ class Table(gr.sync_block):
         """
         Message handler
         """
-        self.table.addRow(str(msg),",")
-        self.table.display()
-
+        try:
+            self.table.addRow(str(msg),",")
+        except Exception as e:
+            print("Exception caught %s"%str(e))
     def _setup_internal_variables(self, ):
         """
         Overload me to setup internal variables that are dependent on the input
