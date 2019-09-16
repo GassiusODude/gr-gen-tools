@@ -74,4 +74,9 @@
         <type>$dtype</type>
         <vlen>1</vlen>
     </sink>
+<doc>
+A recorder block to record signals from an SDR.  Each time the component is enabled a new file is generated with the current time stamp, radio frequency and sampling rate.
+
+The enable property can be tied to a QT checkbox so that the user can configure when to record.
+</doc>
 </block>

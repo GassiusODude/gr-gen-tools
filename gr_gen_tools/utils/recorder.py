@@ -200,11 +200,12 @@ class Recorder(gr.sync_block):
             if diff_1 > num_in:
                 # -----------------------  buffer  --------------------------
                 self._buffer[self._buffer_ind :\
-                     self._buffer_ind + num_in]
+                     self._buffer_ind + num_in] = input_items[0][:]
                 self._buffer_ind += num_in
             else:
                 # ------------------------  max reached  --------------------
-                self._buffer[self._buffer_ind : self._buffer_ind + diff_1]
+                self._buffer[self._buffer_ind : self._buffer_ind + diff_1] =\
+                    input_items[0][:diff_1]
                 self._buffer_ind = len(self._buffer)
                 self._save_buffered_signal
                 

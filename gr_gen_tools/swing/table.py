@@ -15,7 +15,7 @@ import jnius
 TableUI = jnius.autoclass("jdsp.swing.TableFrame")
 class Table(gr.sync_block):
 
-    def __init__(self, column_names="", column_types="", ):
+    def __init__(self, table_name="Table", column_names="", column_types="", ):
         """
         Constructor
         """
@@ -24,10 +24,11 @@ class Table(gr.sync_block):
         # --------------------------- error checking ---------------------------
 
         # --------------------------- set parameters ---------------------------
+        self.table_name = table_name
         self.column_names = str(column_names)
         self.column_types = str(column_types)
         
-        self.table = TableUI()
+        self.table = TableUI(self.table_name)
 
         # ----------------------- set internal variables -----------------------
         self._setup_internal_variables()
@@ -82,6 +83,19 @@ class Table(gr.sync_block):
         # ---------------------- setup internal variables ----------------------
         self._setup_internal_variables()
     
+
+    def set_table_name(self, name):
+        """
+        Set method for table_name
+        """
+        self.table_name = name
+        self.table.setTitle(self.table_name)
+
+    def get_table_name(self):
+        """
+        Get table name
+        """
+        return self.table_name
 
     def get_column_names(self, column_names="", ):
         """
