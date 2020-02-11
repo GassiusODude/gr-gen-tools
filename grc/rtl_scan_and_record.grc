@@ -14,7 +14,7 @@
     </param>
     <param>
       <key>category</key>
-      <value>[GRC Hier Blocks]</value>
+      <value>[gr-gen-tools]/Communications</value>
     </param>
     <param>
       <key>comment</key>
@@ -38,7 +38,7 @@
     </param>
     <param>
       <key>generate_options</key>
-      <value>qt_gui</value>
+      <value>hb_qt_gui</value>
     </param>
     <param>
       <key>hier_block_src_path</key>
@@ -105,7 +105,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(128, 92)</value>
+      <value>(8, 204)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -172,7 +172,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(8, 204)</value>
+      <value>(152, 204)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -197,33 +197,6 @@
     <param>
       <key>type</key>
       <value>bool</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(8, 140)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>samp_rate</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>2e6</value>
     </param>
   </block>
   <block>
@@ -297,7 +270,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(16, 84)</value>
+      <value>(104, 132)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -310,6 +283,49 @@
     <param>
       <key>import</key>
       <value>import numpy as np</value>
+    </param>
+  </block>
+  <block>
+    <key>pad_sink</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(608, 268)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>pad_sink_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>out</value>
+    </param>
+    <param>
+      <key>num_streams</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>optional</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1942,9 +1958,62 @@
       <value></value>
     </param>
   </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(8, 124)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value></value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>eng_float</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>2e6</value>
+    </param>
+  </block>
   <connection>
     <source_block_id>rtlsdr_source_0</source_block_id>
     <sink_block_id>Recorder_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>rtlsdr_source_0</source_block_id>
+    <sink_block_id>pad_sink_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
