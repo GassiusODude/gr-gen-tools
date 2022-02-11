@@ -18,6 +18,17 @@ class Table(gr.sync_block):
     def __init__(self, table_name="Table", column_names="", column_types="", ):
         """
         Constructor
+
+        Parameters
+        ----------
+        table_name : str
+            The name to display on the table
+
+        column_names : str
+            Names of columns (in comma separated variables)
+
+        column_types : str
+            Types of columns (in comma separated variables)
         """
         gr.sync_block.__init__(self, name='Table', in_sig=[], out_sig = [])
 
@@ -27,7 +38,7 @@ class Table(gr.sync_block):
         self.table_name = table_name
         self.column_names = str(column_names)
         self.column_types = str(column_types)
-        
+
         self.table = TableUI(self.table_name)
 
         # ----------------------- set internal variables -----------------------
@@ -43,6 +54,7 @@ class Table(gr.sync_block):
             self.table.addRow(str(msg),",")
         except Exception as e:
             print("Exception caught %s"%str(e))
+
     def _setup_internal_variables(self, ):
         """
         Overload me to setup internal variables that are dependent on the input
@@ -70,7 +82,7 @@ class Table(gr.sync_block):
 
         # ---------------------- setup internal variables ----------------------
         self._setup_internal_variables()
-    
+
 
     def set_column_types(self, column_types="", ):
         """
@@ -83,7 +95,7 @@ class Table(gr.sync_block):
 
         # ---------------------- setup internal variables ----------------------
         self._setup_internal_variables()
-    
+
 
     def set_table_name(self, name):
         """
@@ -103,14 +115,14 @@ class Table(gr.sync_block):
         Get method for column_names
         """
         return self.column_names
-    
+
 
     def get_column_types(self, column_types="", ):
         """
         Get method for column_types
         """
         return self.column_types
-    
+
 
     def work(self, input_items, output_items, ):
         """

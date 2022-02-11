@@ -1,0 +1,40 @@
+id: gr_gen_tools_recorder
+label: recorder
+category: '[gr-gen-tools]'
+
+templates:
+  imports: from gr_gen_tools.utils.recorder import Recorder
+  make: Recorder(${rf}, ${fs}, ${dur}, ${enable}, ${out_dir})
+
+parameters:
+- id: rf
+  label: Radio Frequency
+  dtype: float
+  default: 100e6
+
+- id: fs
+  label: Sample Rate
+  dtype: float
+  default: 2e6
+
+- id: dur
+  label: Max Duration
+  dtype: float
+  default: 60.
+
+- id: enable
+  label: Enable
+  dtype: bool
+  default: false
+
+- id: out_dir
+  label: Output directiory
+  dtype: string
+  default: /tmp
+
+inputs:
+- label: in
+  domain: stream
+  dtype: complex
+
+file_format: 1

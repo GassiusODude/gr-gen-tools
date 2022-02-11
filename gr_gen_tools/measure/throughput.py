@@ -10,7 +10,7 @@ short = np.short
 from gr_gen_tools.utils.representation import engineering_notation
 class Throughput(gr.sync_block):
 
-    def __init__(self, name, period, dtype=float):
+    def __init__(self, name, period, dtype=np.complex64):
         """
         Constructor for the throughput component
 
@@ -18,9 +18,12 @@ class Throughput(gr.sync_block):
         ---------
         name : str
             Name of the stream being measured
-        
+
         period : float
             Period of time to print and gather measurement (in seconds)
+
+        dtype :  type
+            The data format of the input
         """
         # --------------------------- error checking ------------------------
         if type(name) is not str:
