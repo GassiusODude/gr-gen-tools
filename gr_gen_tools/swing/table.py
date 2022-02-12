@@ -12,7 +12,7 @@ import numpy as np
 import warnings
 from gnuradio import gr
 import jnius
-TableUI = jnius.autoclass("jdsp.swing.TableFrame")
+TableUI = jnius.autoclass("net.kcundercover.jdsp.swing.TableFrame")
 class Table(gr.sync_block):
 
     def __init__(self, table_name="Table", column_names="", column_types="", ):
@@ -22,13 +22,13 @@ class Table(gr.sync_block):
         Parameters
         ----------
         table_name : str
-            The name to display on the table
+            The name of the table displayed
 
         column_names : str
-            Names of columns (in comma separated variables)
+            The name of the columns in comma separated format
 
         column_types : str
-            Types of columns (in comma separated variables)
+            The types for the columns from ({str, int, bool, double, float})
         """
         gr.sync_block.__init__(self, name='Table', in_sig=[], out_sig = [])
 
@@ -43,15 +43,19 @@ class Table(gr.sync_block):
 
         # ----------------------- set internal variables -----------------------
         self._setup_internal_variables()
-        self.message_port_register_in(pmt.intern("input"))
-        self.set_msg_handler(pmt.intern("input"), self.msg_handler)
+        self.message_port_register_in(pmt.intern("in"))
+        self.set_msg_handler(pmt.intern("in"), self.msg_handler)
 
     def msg_handler(self, msg):
         """
         Message handler
         """
         try:
-            self.table.addRow(str(msg),",")
+            # NOTE: some error in passing strings through jnius to Java
+            #       swapping to pass list of string instead
+            #self.table.addRow(str(msg) ,",")
+            self.table.addRows([str(msg)], [","])
+
         except Exception as e:
             print("Exception caught %s"%str(e))
 
@@ -83,7 +87,6 @@ class Table(gr.sync_block):
         # ---------------------- setup internal variables ----------------------
         self._setup_internal_variables()
 
-
     def set_column_types(self, column_types="", ):
         """
         Set method for column_types
@@ -110,14 +113,14 @@ class Table(gr.sync_block):
         """
         return self.table_name
 
-    def get_column_names(self, column_names="", ):
+    def get_column_names(self,):
         """
         Get method for column_names
         """
         return self.column_names
 
 
-    def get_column_types(self, column_types="", ):
+    def get_column_types(self):
         """
         Get method for column_types
         """
