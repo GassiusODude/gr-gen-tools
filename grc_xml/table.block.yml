@@ -1,0 +1,33 @@
+id: gr_gen_tools_swing_table
+label: swing_table
+category: '[gr-gen-tools]'
+
+templates:
+  imports: from gr_gen_tools.swing.table import Table
+  make: Table(${table_name}, ${column_names}, ${column_types})
+  callbacks:
+  - set_table_name(${table_name})
+  - set_column_names(${column_names})
+  - set_column_typs(${column_types})
+parameters:
+- id: table_name
+  label: Table Name
+  dtype: string
+  default: MyTable
+
+- id: column_names
+  label: Column Names
+  dtype: string
+  default: Name,Age,Single
+
+- id: column_types
+  label: Column Types
+  dtype: string
+  default: str,int,bool
+
+inputs:
+- label: in
+  domain: message
+  dtype: string
+
+file_format: 1

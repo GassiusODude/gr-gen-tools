@@ -1,0 +1,1 @@
+export GRC_BLOCKS_PATH=$GRC_BLOCKS_PATH:$PWD/grc_xml
