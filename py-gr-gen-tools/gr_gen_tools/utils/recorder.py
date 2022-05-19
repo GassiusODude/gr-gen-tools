@@ -6,13 +6,15 @@ Connect a QT/Wx item to the enable toggling the recorder on or off.
 """
 import numpy as np
 import os
-import warnings
 from gnuradio import gr
 from gr_gen_tools.utils.representation import gen_filename
+
+
 class Recorder(gr.sync_block):
 
-    def __init__(self, radio_frequency=100e6, sample_rate=0,\
-            max_duration_seconds=600, enable=True, output_dir="/tmp",\
+    def __init__(
+            self, radio_frequency=100e6, sample_rate=0,
+            max_duration_seconds=600, enable=False, output_dir="/tmp",
             dtype=np.complex64):
         """
         Constructor for the Recorder block
@@ -41,14 +43,16 @@ class Recorder(gr.sync_block):
         dtype : type
             The data format to save.
         """
-        gr.sync_block.__init__(self,
+        gr.sync_block.__init__(
+            self,
             name='Recorder',
-            in_sig = [dtype, ],
-            out_sig = [],
+            in_sig=[dtype, ],
+            out_sig=[],
             )
-        # --------------------------- error checking ---------------------------
 
-        # --------------------------- set parameters ---------------------------
+        # --------------------------- error checking -------------------------
+
+        # --------------------------- set parameters -------------------------
         self.radio_frequency = np.float32(radio_frequency)
         self.sample_rate = np.float32(sample_rate)
         self.max_duration_seconds = np.float32(max_duration_seconds)
@@ -72,9 +76,8 @@ class Recorder(gr.sync_block):
         self._buffer = []
         self._buffer_ind = 0
 
-        # ----------------------- set internal variables -----------------------
+        # ----------------------- set internal variables --------------------
         self._setup_internal_variables()
-
 
     def _setup_internal_variables(self, ):
         """
@@ -83,10 +86,11 @@ class Recorder(gr.sync_block):
         """
         # ----------------  calculate dependent variables  ------------------
         new_buffer_len = int(self.max_duration_seconds * self.sample_rate)
-        new_file = self.output_dir + gen_filename("", self.dtype,
-            fc=self.radio_frequency, fs=self.sample_rate)
+        new_file = self.output_dir + gen_filename(
+            "", self.dtype, fc=self.radio_frequency, fs=self.sample_rate)
         modified = (new_buffer_len != len(self._buffer)) or \
             (new_file != self._filename)
+        print("New file = %s" % new_file)
 
         # ---------------------  saved buffered signal  ---------------------
         if modified:
@@ -106,6 +110,7 @@ class Recorder(gr.sync_block):
         Save the currently buffered signal.
         """
         if self.enable and self._filename and self._buffer_ind > 0:
+            print("Saving %s" % self._filename)
             # -------------------------  save output  -----------------------
             self._buffer[:self._buffer_ind].astype(self.dtype)\
                 .tofile(self._filename)
@@ -127,10 +132,10 @@ class Recorder(gr.sync_block):
         """
         # ---------------------------- set property -------------------------
         self.radio_frequency = np.float32(radio_frequency)
+        print("Radio frequency updated to %f MHz" % (radio_frequency/1e6))
 
         # ---------------------- setup internal variables -------------------
         self._setup_internal_variables()
-
 
     def set_sample_rate(self, sample_rate=0, ):
         """
@@ -145,9 +150,8 @@ class Recorder(gr.sync_block):
         # -------------------------- set property ---------------------------
         self.sample_rate = np.float32(sample_rate)
 
-        # ---------------------- setup internal variables ----------------------
+        # ---------------------- setup internal variables -------------------
         self._setup_internal_variables()
-
 
     def set_max_duration_seconds(self, max_duration_seconds=600, ):
         """
@@ -159,12 +163,11 @@ class Recorder(gr.sync_block):
             The number of seconds to record.  This will automatically
             stop the recording once the duration is reached.
         """
-        # ---------------------------- set property ----------------------------
+        # ---------------------------- set property -------------------------
         self.max_duration_seconds = np.float32(max_duration_seconds)
 
-        # ---------------------- setup internal variables ----------------------
+        # ---------------------- setup internal variables -------------------
         self._setup_internal_variables()
-
 
     def set_enable(self, enable=True, ):
         """
@@ -178,17 +181,17 @@ class Recorder(gr.sync_block):
         enable : bool
             Enable recording
         """
-        # --------------------------- error checking ---------------------------
+        # --------------------------- error checking ------------------------
+        print("Enable being set to %s" % str(enable))
         if self.enable and not enable:
             # previously on and turning off.
             self._save_buffered_signal()
 
-        # ---------------------------- set property ----------------------------
+        # ---------------------------- set property -------------------------
         self.enable = bool(enable)
 
-        # ---------------------- setup internal variables ----------------------
+        # ---------------------- setup internal variables -------------------
         self._setup_internal_variables()
-
 
     def set_output_dir(self, output_dir="/tmp", ):
         """
@@ -199,9 +202,9 @@ class Recorder(gr.sync_block):
         output_dir : str
             The directory path to save recordings
         """
-        # --------------------------- error checking ---------------------------
+        # --------------------------- error checking ------------------------
 
-        # ---------------------------- set property ----------------------------
+        # ---------------------------- set property -------------------------
         self.output_dir = str(output_dir)
         if output_dir:
             if output_dir[-1] != "/":
@@ -210,9 +213,8 @@ class Recorder(gr.sync_block):
         if not os.path.isdir(self.output_dir):
             os.makedirs(self.output_dir)
 
-        # ---------------------- setup internal variables ----------------------
+        # ---------------------- setup internal variables -------------------
         self._setup_internal_variables()
-
 
     def get_radio_frequency(self, radio_frequency=100e6, ):
         """
@@ -220,13 +222,11 @@ class Recorder(gr.sync_block):
         """
         return self.radio_frequency
 
-
     def get_sample_rate(self):
         """
         Get method for sample_rate
         """
         return self.sample_rate
-
 
     def get_max_duration_seconds(self):
         """
@@ -234,20 +234,17 @@ class Recorder(gr.sync_block):
         """
         return self.max_duration_seconds
 
-
     def get_enable(self):
         """
         Get method for enable
         """
         return self.enable
 
-
     def get_output_dir(self):
         """
         Get method for output_dir
         """
         return self.output_dir
-
 
     def work(self, input_items, output_items, ):
         """
@@ -259,18 +256,17 @@ class Recorder(gr.sync_block):
             diff_1 = len(self._buffer) - self._buffer_ind
             if diff_1 > num_in:
                 # -----------------------  buffer  --------------------------
-                self._buffer[self._buffer_ind :\
-                     self._buffer_ind + num_in] = input_items[0][:]
+                self._buffer[self._buffer_ind:self._buffer_ind + num_in] \
+                    = input_items[0][:]
                 self._buffer_ind += num_in
             else:
                 # ------------------------  max reached  --------------------
-                self._buffer[self._buffer_ind : self._buffer_ind + diff_1] =\
-                    input_items[0][:diff_1]
+                self._buffer[self._buffer_ind:self._buffer_ind + diff_1] \
+                    = input_items[0][:diff_1]
                 self._buffer_ind = len(self._buffer)
                 self._save_buffered_signal
 
                 # turn off record until user triggers
                 self.enable = False
-
 
         return num_in

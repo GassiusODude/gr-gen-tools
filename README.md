@@ -35,7 +35,7 @@ Evaluate supported maximum throughtput of various components.  This is useful fo
 
 These are Java Swing components used to provide better awareness of the output of various components.
 
-This uses JDSP from [JDSP](https://github.com/GassiusODude/jdsp/)
+This uses JDSP from [JDSP >= 1.02](https://github.com/GassiusODude/jdsp/)
 
 This uses [PyJnius](https://pyjnius.readthedocs.io/en/stable/) to access Java from Python.
 
@@ -43,7 +43,7 @@ This uses [PyJnius](https://pyjnius.readthedocs.io/en/stable/) to access Java fr
   * Setup JDK_HOME to point to the JDK
   * Setup JAVA_HOME to point to the JRE
     * PyJnius seems to be have issue pointing to > Java 9.  Try JRE 1.8 instead
-  * Setup CLASSPATH environment to point to JDSP jar file
+  * Setup CLASSPATH environment to point to JDSP jar file.
 
 | Swing Tool | Description |
 | :-: | :-: |

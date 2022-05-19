@@ -4,8 +4,14 @@ category: '[gr-gen-tools]'
 
 templates:
   imports: from gr_gen_tools.utils.recorder import Recorder
-  make: Recorder(${rf}, ${fs}, ${dur}, ${enable}, ${out_dir})
-
+  make: |-
+    Recorder(${rf}, ${fs}, ${dur}, ${enable}, ${out_dir})
+  callbacks:
+  - set_radio_frequency(${rf})
+  - set_sample_rate(${fs})
+  - set_max_duration_seconds(${dur})
+  - set_enable(${enable})
+  - set_output_dir(${out_dir})
 parameters:
 - id: rf
   label: Radio Frequency
