@@ -5,7 +5,9 @@ category: '[gr-gen-tools]'
 templates:
   imports: from gr_gen_tools.measure.throughput import Throughput
   make: Throughput(${name}, ${period})
-
+  callbacks:
+  - set_name(${name})
+  - set_period(${period})
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.
 #     Keys include:
 #     * id (makes the value accessible as keyname, e.g. in the make entry)

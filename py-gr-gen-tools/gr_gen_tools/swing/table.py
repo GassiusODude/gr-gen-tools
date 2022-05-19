@@ -8,11 +8,11 @@ column_names = ["Name", "Age", "Salary", "Employed"]
 column_types = ["str", "int", "float", "bool"]
 """
 import pmt
-import numpy as np
-import warnings
 from gnuradio import gr
 import jnius
 TableUI = jnius.autoclass("net.kcundercover.jdsp.swing.TableFrame")
+
+
 class Table(gr.sync_block):
 
     def __init__(self, table_name="Table", column_names="", column_types="", ):
@@ -30,18 +30,18 @@ class Table(gr.sync_block):
         column_types : str
             The types for the columns from ({str, int, bool, double, float})
         """
-        gr.sync_block.__init__(self, name='Table', in_sig=[], out_sig = [])
+        gr.sync_block.__init__(self, name='Table', in_sig=[], out_sig=[])
 
-        # --------------------------- error checking ---------------------------
+        # --------------------------- error checking ------------------------
 
-        # --------------------------- set parameters ---------------------------
+        # --------------------------- set parameters ------------------------
         self.table_name = table_name
         self.column_names = str(column_names)
         self.column_types = str(column_types)
 
         self.table = TableUI(self.table_name)
 
-        # ----------------------- set internal variables -----------------------
+        # ----------------------- set internal variables --------------------
         self._setup_internal_variables()
         self.message_port_register_in(pmt.intern("in"))
         self.set_msg_handler(pmt.intern("in"), self.msg_handler)
@@ -53,11 +53,10 @@ class Table(gr.sync_block):
         try:
             # NOTE: some error in passing strings through jnius to Java
             #       swapping to pass list of string instead
-            #self.table.addRow(str(msg) ,",")
             self.table.addRows([str(msg)], [","])
 
         except Exception as e:
-            print("Exception caught %s"%str(e))
+            print("Exception caught %s" % str(e))
 
     def _setup_internal_variables(self, ):
         """
@@ -79,26 +78,25 @@ class Table(gr.sync_block):
         """
         Set method for column_names
         """
-        # --------------------------- error checking ---------------------------
+        # --------------------------- error checking ------------------------
 
-        # ---------------------------- set property ----------------------------
+        # ---------------------------- set property -------------------------
         self.column_names = str(column_names)
 
-        # ---------------------- setup internal variables ----------------------
+        # ---------------------- setup internal variables -------------------
         self._setup_internal_variables()
 
     def set_column_types(self, column_types="", ):
         """
         Set method for column_types
         """
-        # --------------------------- error checking ---------------------------
+        # --------------------------- error checking ------------------------
 
-        # ---------------------------- set property ----------------------------
+        # ---------------------------- set property -------------------------
         self.column_types = str(column_types)
 
-        # ---------------------- setup internal variables ----------------------
+        # ---------------------- setup internal variables -------------------
         self._setup_internal_variables()
-
 
     def set_table_name(self, name):
         """
@@ -119,13 +117,11 @@ class Table(gr.sync_block):
         """
         return self.column_names
 
-
     def get_column_types(self):
         """
         Get method for column_types
         """
         return self.column_types
-
 
     def work(self, input_items, output_items, ):
         """

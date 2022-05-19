@@ -4,8 +4,12 @@ Recorder
 This component acts as a user controlled recorder.
 Connect a QT/Wx item to the enable toggling the recorder on or off.
 """
+from datetime import datetime
 import numpy as np
 import os
+import sigmf
+from sigmf import SigMFFile
+from sigmf.utils import get_data_type_str
 from gnuradio import gr
 from gr_gen_tools.utils.representation import gen_filename
 
@@ -90,7 +94,6 @@ class Recorder(gr.sync_block):
             "", self.dtype, fc=self.radio_frequency, fs=self.sample_rate)
         modified = (new_buffer_len != len(self._buffer)) or \
             (new_file != self._filename)
-        print("New file = %s" % new_file)
 
         # ---------------------  saved buffered signal  ---------------------
         if modified:
@@ -110,10 +113,24 @@ class Recorder(gr.sync_block):
         Save the currently buffered signal.
         """
         if self.enable and self._filename and self._buffer_ind > 0:
-            print("Saving %s" % self._filename)
             # -------------------------  save output  -----------------------
-            self._buffer[:self._buffer_ind].astype(self.dtype)\
-                .tofile(self._filename)
+            tmp_buf = self._buffer[:self._buffer_ind].astype(self.dtype)
+            tmp_buf.tofile(self._filename)
+
+            meta = SigMFFile(
+                data_file=self._filename,
+                global_info={
+                    SigMFFile.DATATYPE_KEY: "cf32",#get_data_type_str(tmp_buf),
+                    SigMFFile.SAMPLE_RATE_KEY: float(self.sample_rate),
+                    SigMFFile.VERSION_KEY: sigmf.__version__,
+                },
+            )
+            meta.add_capture(0, metadata={
+                SigMFFile.FREQUENCY_KEY: float(self.radio_frequency),
+                SigMFFile.DATETIME_KEY: datetime.utcnow().isoformat()+'Z',
+            })
+            #assert meta.validate()
+            meta.tofile(self._filename + ".sigmf-meta")
 
         # --------------------------  reset  --------------------------------
         self._buffer_ind = 0
@@ -132,7 +149,6 @@ class Recorder(gr.sync_block):
         """
         # ---------------------------- set property -------------------------
         self.radio_frequency = np.float32(radio_frequency)
-        print("Radio frequency updated to %f MHz" % (radio_frequency/1e6))
 
         # ---------------------- setup internal variables -------------------
         self._setup_internal_variables()
@@ -182,7 +198,6 @@ class Recorder(gr.sync_block):
             Enable recording
         """
         # --------------------------- error checking ------------------------
-        print("Enable being set to %s" % str(enable))
         if self.enable and not enable:
             # previously on and turning off.
             self._save_buffered_signal()
